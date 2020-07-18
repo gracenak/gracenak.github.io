@@ -1,11 +1,11 @@
 # Site settings
 author: Yuiko Grace Nakano
-title: 
+title: Entering into the World of Coding
 header-img: img/home-bg.png
 email: gracenak@gmail.com
 copyright_name: Yuiko Grace Nakano
 description: > # this means to ignore newlines until "baseurl:"
-  
+  Why I decided to study Software Engineering
 baseurl: "" # the subpath of your site, e.g. /blog
 twitter_username: 
 github_username:  gracenak
