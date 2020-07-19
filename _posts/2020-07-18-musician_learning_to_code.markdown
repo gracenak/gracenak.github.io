@@ -6,7 +6,7 @@ permalink:  musician_learning_to_code
 ---
 
 
-I have spent my whole life devoting myself to music. From the age of 5, I have spent countless hours practicing the violin, rehearsing, and performing. Music has been my lifelong passion but has limited my time and energy to other interests and hobbies. The path to becoming a professional musician has been an arduous road of love, sweat, and tears but continues to be a devotion worthy of its time. So, why have I decided to venture into the world of coding?
+I have spent my whole life devoting myself to music. From the age of 5, I have spent countless hours practicing the violin, rehearsing, and performing. Music has been my lifelong passion but has limited my time and energy to other interests and hobbies. The path to becoming a professional musician has been an arduous road of love, sweat, and tears but has continued to be a devotion worthy of its time. So, why have I decided to venture into the world of coding?
 
 I am a 30 year old, classically trained musician. In addition to being a performer, I teach music privately and at the public schools. At the height of the COVID-19 pandemic, the symphony was shut down and the schools were closed. I was no longer able to perform and I was no longer able to go into the schools to teach my students. Life as we knew it had become a virtual reality. 
 
