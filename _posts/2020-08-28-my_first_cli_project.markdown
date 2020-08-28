@@ -6,7 +6,7 @@ permalink:  my_first_cli_project
 ---
 
 
-We are on week 8 of the Software Engineering Program at Flatiron, with my first CLI Project completed! The prompt for this project was to build a Ruby gem that provided a CLI to an external data source.
+We are 8 weeks into the Software Engineering Program at Flatiron, with my first CLI Project completed! The prompt for this project was to build a Ruby gem that provided a CLI to an external data source.
 
 What is a Ruby gem? Ruby is the programming language and gem is the software package that includes applications and libraries  specific to Ruby. Ruby gems are essentially open sourced software libraries that other Ruby programmers can use to extend or modify functionality in their application. Some gems help automate tasks such as, 'pry', a debugging gem that helps you debug your code, or 'nokogiri', a gem that transforms an HTML webpage into ruby objects. 
 
