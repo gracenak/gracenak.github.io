@@ -28,6 +28,7 @@ What is a CLI? It stands for "Command Line Interface." It is a text-based, user 
 
 
 =======Juilliard String Quartet======
+
 Date:
 
 Wednesday, December 16, 2020
@@ -44,4 +45,4 @@ https://arizonachambermusic.org/events/juilliard-string-quartet-day-1/
 
 How did my CLI provide this information? Web scraping is the process of extracting data from web sources. I required 'open-uri' and  'Nokogiri' gems so that my program could open, parse and transform the html/webpage into ruby objects. From there I could write code that iterated through each concert and extracted the specific data such as 'name', 'data', 'info', 'link', for each concert.
 
-These 2 weeks were extremely challenging, yet exciting. I could write on and on about my process of coding my first CLI Project. What I really took out of this was continuing to understand the concept of Object Orientation Programming.  I am continuing to learn, practice, and grow in my knowledge and skills in coding. This assesment will be revealing of my knowledge and ability to communicate effectively. I am nervous and looking forward to it. Either way, I will learn to step in the right direction.
+These 2 weeks were extremely challenging, yet exciting. I could write on and on about my process of coding my first CLI Project. What I really took out of this was continuing to understand the concept of Object Orientation Programming.  I am continuing to learn, practice, and grow in my knowledge and skills in coding. This assesment will be revealing of my knowledge and ability to communicate effectively. I am nervous and looking forward to it. 
