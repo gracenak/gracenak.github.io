@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Creating a Sinatra Application"
-date:       2020-10-23 00:41:47 +0000
+date:       2020-10-22 20:41:48 -0400
 permalink:  creating_a_sinatra_application
 ---
 
@@ -41,15 +41,16 @@ What is the importance of sessions? Because HTTP is a stateless protocol, meanin
 
 Next, we set our session_secret, 'password_security'. This adds an extra layer of security and protection for the user. 
 
-Our gem, bcrypt stores plain text passwords as a salted, hashed version so that only the user has knowledge of the password. They store this password in the database in a column called "password_digest". Our macro, "has_secure_password", in class User < ActiveRecord::Base, works in conjunction with bcrypt and does not store the plain text password in the database, but as an encrypted password that can not be decoded. This maco has a built in **authenticate** method thats takes in an argument of password_digest and comes out as an encypted password stored in the database. This is why we can ask if user && user.authenticate(params[:password]) to authenticate the user's params at login.
+Our gem, bcrypt stores plain text passwords as a salted, hashed version so that only the user has knowledge of the password. They store this password in the database in a column called "password_digest". Our macro, "has_secure_password", in class User < ActiveRecord::Base, works in conjunction with bcrypt and does not store the plain text password in the database, but as an encrypted password that can not be decoded. This maco has a built in **authenticate** method thats takes in an argument of password_digest. This is why we can ask 
+**if user && user.authenticate(params[:password])** to authenticate the user's params at login.
 
 
 Helper methods are accessible in views and provide logical support, such as logged_in? and current_user.
 
 Our **config.ru** is our executable file. It is responsible for loading our environment and code.  We mount "Run ApplicationController" to start the application and additionally mount other controllers that inherit the ApplicationController to load (ie: use UsersController) in order to have functionaing code for those controllers. On top of these controllers, we mount Use Rack::MethodOverride to make patch and delete requests. We need Rack, our middleware, to intercept for every sent and received request via PATCH and DELETE. This is why in our edit and delete views, we have:
 
-<form method="POST" action="/gigs/<%= @gig.id %>">
-<input type="hidden" id="hidden" name="_method" value="PATCH">
+"<form method="POST" action="/gigs/<%= @gig.id %>">
+<input type="hidden" id="hidden" name="_method" value="PATCH">"
 
 We use rack to override method and as stated in input, has a name of "_method"  with a value of "PATCH".
 
@@ -63,22 +64,29 @@ end
     has_many : gigs
 end
 
+
+
 **@user = User.find(1)**
 
-#<**User id: 1**, username: "gracenak", email: "gracenak@gmail.com", password_digest:
-"$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO...">
+
+
+**User id: 1**, username: "gracenak", email: "gracenak@gmail.com", password_digest:
+"$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO..."
+
+
 
 **@user.gigs **
 
-#<Gig id: 35, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1/15. 5 services $150/service", payment: 0.75e3, expenses: 0.5e2, **user_id: 1**>, #<Gig id: 38, employer: "True Concord", date: "2020-10-12", description: "Chamber stuff", payment: 0.5e3, expenses: 0.17e2, **user_id: 1**>, #<Gig id: 43, employer: "Arizona Friends of Chamber Music", date: "2020-10-20", description: "Prokofiev Quintet", payment: 0.2e3, expenses: 0.5e1, **user_id: 1**>
+Gig id: 35, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1/15. 5 services $150/service", payment: 0.75e3, expenses: 0.5e2, **user_id: 1**>, #<Gig id: 38, employer: "True Concord", date: "2020-10-12", description: "Chamber stuff", payment: 0.5e3, expenses: 0.17e2, **user_id: 1**>, #<Gig id: 43, employer: "Arizona Friends of Chamber Music", date: "2020-10-20", description: "Prokofiev Quintet", payment: 0.2e3, expenses: 0.5e1, **user_id: 1**
 
 **@gig = Gig.find(35)**
 
-#<**Gig id: 35**, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1/15. 5 services $150/service", payment: 0.75e3, expenses: 0.5e2, **user_id: 1**>
+**Gig id: 35**, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1/15. 5 services $150/service", payment: 0.75e3, expenses: 0.5e2, **user_id: 1**
 
 **@gig.user**
 
-#**<User id: 1**, username: "gracenak", email: "gracenak@gmail.com", password_digest: "$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO...">
+
+**<User id: 1**, username: "gracenak", email: "gracenak@gmail.com", password_digest: "$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO..."
 
 
 Building this application was a lot of fun. I am looking forward to the next module and project!
