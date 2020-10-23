@@ -50,7 +50,8 @@ Helper methods are accessible in views and provide logical support, such as logg
 Our **config.ru** is our executable file. It is responsible for loading our environment and code.  We mount "Run ApplicationController" to start the application and additionally mount other controllers that inherit the ApplicationController  (ie: use UsersController) in order to load functioning code for those controllers. On top of those controllers, we mount Use Rack::MethodOverride to make patch and delete requests. We need Rack, our middleware, to intercept for every sent and received request via PATCH and DELETE. This is why our edit and delete views have this form:
 
 <form method="POST" action="/gigs/<%= @gig.id %>
- input type="hiddwn" id="hidden" name="_method" value="PATCH"
+
+ <input type="hidden" id="hidden" name="_method" value="PATCH">
 
 
 We use rack to override method and as stated in input, has a name of "_method"  with a value of "PATCH".
@@ -58,11 +59,15 @@ We use rack to override method and as stated in input, has a name of "_method"  
 The most important concept implemented was object relational mapping of these models through "has_many" and "belongs_to". A user "has_many" gigs. A gig "belongs_to" a user. A gig has a foreign key of user_id and a user has a primary key of id.
 
 class Gig < ActiveRecord::Base
+
   belongs_to : user
+	
 end
 
  class User < ActiveRecord::Base
+ 
    has_many : gigs
+	 
  end
 
 
