@@ -80,8 +80,7 @@ end
 "$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO..."
 
 
-
-**@user.gigs **
+**@user.gigs**
 
 Gig id: 35, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1/15. 5 services $150/service", payment: 0.75e3, expenses: 0.5e2, **user_id: 1**>, #<Gig id: 38, employer: "True Concord", date: "2020-10-12", description: "Chamber stuff", payment: 0.5e3, expenses: 0.17e2, **user_id: 1**>, #<Gig id: 43, employer: "Arizona Friends of Chamber Music", date: "2020-10-20", description: "Prokofiev Quintet", payment: 0.2e3, expenses: 0.5e1, **user_id: 1**
 
