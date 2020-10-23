@@ -15,7 +15,7 @@ This Sinatra app built on MVC Framework is a system that has seperation of conce
 
 How does this work?
 
-1. The browser makes an HTTP request. The Sinatra **controller** (ie: app_controller.rb)  takes that request and routes it to to the appropriate action (ie: get)
+1. The browser makes an HTTP request. The Sinatra **controller** (ie: app_controller.rb)  takes that request and routes it to to the appropriate action (ie: /users)
 
 2. This action then requests these objects from the **models** (ie: user.rb) 
 
