@@ -51,7 +51,7 @@ Our **config.ru** is our executable file. It is responsible for loading our envi
 
 <form method="POST" action="/gigs/<%= @gig.id %>
 
- input type="hidden" id="hidden" name="_method" value="PATCH"
+< input type="hidden" id="hidden" name="_method" value="PATCH" >
 
 
 We use rack to override method and as stated in input, has a name of "_method"  with a value of "PATCH".
