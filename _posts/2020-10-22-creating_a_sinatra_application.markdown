@@ -35,7 +35,7 @@ How does this work?
 
 **C**ontrollers dictate the action, going between models and views to implement the requests.
 
-The application_controller.erb serves as the interface and flow of the application. The configure block tells the controller where to look and find the views and public directory(containing my css styling and more). We enable sessions, which enables the app to use the **sessions** keyword to access a session hash. The session hash stores the user's id. 
+The application_controller.rb serves as the interface and flow of the application. The configure block tells the controller where to look and find the views and public directory(containing my css styling and more). We enable sessions, which enables the app to use the **sessions** keyword to access a session hash. The session hash stores the user's id. 
 
 What is the importance of sessions? Because HTTP is a stateless protocol, meaning it will not retain any information about a user during the time of the request, it is important to set up sessions so that it can retain user information at the duration of the session. This session begins from the time when the user logs in. Any data stored in a session hash can be accessed  during the time of the session. Logging out will remove the user id and clear the data from the session hash. How cool is that? 
 
