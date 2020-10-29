@@ -70,8 +70,8 @@ end
  ```
 
 
-
-`@user = User.find(1)
+```
+@user = User.find(1)
 
 
 User id: 1, username: "gracenak", email: "gracenak@gmail.com", password_digest:
@@ -90,8 +90,7 @@ Gig id: 35, employer: "Bella Strings", date: "2020-10-13", description: "1/11 -1
 
 
 <User id: 1, username: "gracenak", email: "gracenak@gmail.com", password_digest: "$2a$12$.271nUL/TGRbjipErtnV8epqLdap1gUM3Y30n.llcCO..."
-
-`
+```
 
 
 Building this application was a lot of fun. I am looking forward to the next module and project!
