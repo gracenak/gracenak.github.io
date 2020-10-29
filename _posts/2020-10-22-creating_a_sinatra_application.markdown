@@ -51,7 +51,6 @@ Our **config.ru** is our executable file. It is responsible for loading our envi
 
 ```
 <form method="POST" action="/gigs/<%= @gig.id %>
-
 < input type="hidden" id="hidden" name="_method" value="PATCH" > 
 ```
 
