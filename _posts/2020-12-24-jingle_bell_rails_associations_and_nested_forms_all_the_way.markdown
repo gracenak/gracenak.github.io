@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Jingle Bell Rails: Associations & Nested Forms All the Way"
-date:       2020-12-24 21:09:18 +0000
+date:       2020-12-24 16:09:19 -0500
 permalink:  jingle_bell_rails_associations_and_nested_forms_all_the_way
 ---
 
@@ -14,36 +14,38 @@ This MVC application has 5 models with belongs_to, has_many, has_many: :through,
 
 ![](https://imgur.com/5enANuI)
 
-I had initially struggled to figure out how to make my model associations work based on how I had set my user attributes. User has a contractor attribute with a boolean datatype so that the user has the option to sign up as a musician looking for gigs or a contractor having the extra feature to post gigs). I decided that a Gig could belong_to :user AND has_many: users, through: :requests.
+I had initially struggled to figure out how to make my model associations work based on how I had set my user attributes. The User model has a contractor attribute with a boolean datatype, providing the user the option to sign up as a musician looking for gigs or as contractor with the provided extra feature of posting gigs.) The end result was allowing the User to **belong_to :gig** and **has_many :gigs, through: :requests**
 
 ```class Gig < ApplicationRecord
     
-       belongs_to :user
+    belongs_to :user
     
-       has_many :requests
-       has_many :users, through: :requests
+    has_many :gig_instruments
+    has_many :instruments, through: :gig_instruments
+
+    has_many :requests
+    has_many :users, through: :requests
+    
+end```
 		
-		   has_many :gig_instruments
-       has_many :instruments, through: :gig_instruments
+		AND
 		
-		end ```
-		
-		and
-		
-		```class User < ApplicationRecord
+class User < ApplicationRecord
    
     has_many :requests
     has_many :posted_gigs, through: :requests, source: :gigs
     
     has_many :gigs
+
+end```
+
+
+I was having issues when calling **has_many :gigs, though: :requests** because it was conflicting with my 
+		**has_many: gigs **. There was no way for Rails to know which association I was referring and needed to find an alternate solution to query the models.  With **:source**, I was able to ask Rails to look for an association **:posted_gigs** through its root source, **:gigs** on the User model. Renaming and sourcing the model helped distinguish the queries.
 		
-		end ```
-		
-		I was having issues when calling ```has_many :gigs, though: :requests``` because it was conflicting with ```has_many: gigs```  and Rails could not possibly know which association I was referring to. I learned a great syntax to resolve this issue. With **:source**, I was able to ask Rails to look for an association **:posted_gigs** through its root source, **:gigs** on the User model.
-		
-		
-	The process of having functioning nested forms was a bit pesky. The Form Builder **fields_for** allows you to create a scope around another object outside of its class.  This allowed me to create an object associated to the scoped model. Sounds pretty straight forward, right? WELL now in your controllers, you need ensure that in the new action, you are initiating that object. Did I also want to associate this form and nested form to a user? YUP! So I needed to make that **IF** the nested user was in fact the current user that I wanted to build a gig on, then I could instatiate that object and then also instantiate the object to build an instruments on the gig form.
-	
+The process of having functioning nested forms was a bit pesky. The Form Builder **fields_for** allows you to create a scope around another object outside of its class.  This allowed me to create an object associated to the scoped model. Sounds pretty straight forward, right? WELL now in your controllers, you need ensure that in the new action, you are initiating that object. Did I also want to associate this form and nested form to a user? YUP! So I needed to make that **IF** the nested user was in fact the current user that I wanted to build a gig on, then I could instatiate that object and then also instantiate the object to build an instruments on the gig form.
+
+
 	```    def new
         if params[:user_id] && @user = User.find_by_id(params[:user_id])
             @gig = @user.gigs.build
@@ -53,6 +55,8 @@ I had initially struggled to figure out how to make my model associations work b
         @gig.instruments.build
     end```
 		
+	
+
 
 Building this project challenged me to follow my breadcrumb of errors to understand the MVC seperation of concerns and associations of this application. I was happy to build an application of my own construction and design to further build my knowledge. Looking forward to ringing into the new year to Javascript!
 		
