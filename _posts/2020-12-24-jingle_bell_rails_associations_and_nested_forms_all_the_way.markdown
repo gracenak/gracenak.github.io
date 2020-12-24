@@ -12,11 +12,13 @@ I developed an application for musicians, where active contractors and musicians
 
 This MVC application has 5 models with belongs_to, has_many, has_many: :through, and many to many relationships. THAT was the first challenge. Thanks to many draw.io drafts and a kind ear from my friends in this cohort that I was able to establish these relationships: 
 
-![](https://imgur.com/5enANuI)
+![image](https://imgur.com/5enANuI)
+
 
 I had initially struggled to figure out how to make my model associations work based on how I had set my user attributes. The User model has a contractor attribute with a boolean datatype, providing the user the option to sign up as a musician looking for gigs or as contractor with the provided extra feature of posting gigs.) The end result was allowing the User to **belong_to :gig** and **has_many :gigs, through: :requests**
 
-```class Gig < ApplicationRecord
+```
+class Gig < ApplicationRecord
     
     belongs_to :user
     
@@ -26,10 +28,12 @@ I had initially struggled to figure out how to make my model associations work b
     has_many :requests
     has_many :users, through: :requests
     
-end```
+end
+```
 		
 		AND
 		
+```
 class User < ApplicationRecord
    
     has_many :requests
@@ -37,7 +41,8 @@ class User < ApplicationRecord
     
     has_many :gigs
 
-end```
+end
+```
 
 
 I was having issues when calling **has_many :gigs, though: :requests** because it was conflicting with my 
@@ -46,14 +51,16 @@ I was having issues when calling **has_many :gigs, though: :requests** because i
 The process of having functioning nested forms was a bit pesky. The Form Builder **fields_for** allows you to create a scope around another object outside of its class.  This allowed me to create an object associated to the scoped model. Sounds pretty straight forward, right? WELL now in your controllers, you need ensure that in the new action, you are initiating that object. Did I also want to associate this form and nested form to a user? YUP! So I needed to make that **IF** the nested user was in fact the current user that I wanted to build a gig on, then I could instatiate that object and then also instantiate the object to build an instruments on the gig form.
 
 
-	```    def new
+	```   
+	def new
         if params[:user_id] && @user = User.find_by_id(params[:user_id])
             @gig = @user.gigs.build
           else
             @gig = Gig.new
         end
         @gig.instruments.build
-    end```
+    end
+		```
 		
 	
 
