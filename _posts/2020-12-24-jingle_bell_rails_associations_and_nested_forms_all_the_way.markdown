@@ -98,4 +98,4 @@ end
 <% end %>
 ```
 
-Building this project helped me explore expand my knowledge on Rails. I had a lot of fun exploring different avenues to make my ideas possible while following convention.  I look forward to ringing into the new year with Javascript!
+Building this project challenged me to explore and expand my knowledge on Rails. I look forward to ringing into the new year with Javascript!
