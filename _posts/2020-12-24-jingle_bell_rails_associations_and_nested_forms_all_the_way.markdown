@@ -1,23 +1,26 @@
 ---
 layout: post
-title:      "Jingle Bell Rails: Associations & Nested Forms All the Way"
+title:      "Jingle Bell Rails: Associations and Nested Forms All the Way"
 date:       2020-12-24 16:09:19 -0500
 permalink:  jingle_bell_rails_associations_and_nested_forms_all_the_way
 ---
 
 
-What a rewarding project to complete by Christmas! I had so much fun creating this Ruby on Rails application. There were many challenges but I learned so much in the process, including the the wonderful convenience of the Active Record method, build, and nested forms. 
+What a rewarding project to complete by Christmas! I had so much fun creating this Ruby on Rails application. There were many challenges but I learned so much in the process, including the the wonderful convenience of the Active Record method, build, and nested forms.
 
-I developed an application for musicians, where active contractors and musicians can connect in one application for the same concern; finding work and finding employees . Users have access to a listing of gigs, can submit applications upon interest of gigs, and meet fellow musicians/contractors through their profile. As a contractor, you can post gigs and will be provided with a listing of applications received at your home page. The contractor will be able to review their profile to aid in the hiring process.
+I developed an application for musicians, where active contractors and musicians could connect for the same concern; finding work and finding employees . Users have access to a listing of gigs, authorization to submit applications upon interest of gigs, and view fellow musician's and contractor's profile. A user has the option to sign up as a contractor, providing authorization to post gigs and receive requests for gigs and a direct linke to the applicants page. Providing these features aids the contractor in the hiring process.
 
-This MVC application has 5 models with belongs_to, has_many, has_many: :through, and many to many relationships. THAT was the first challenge. Thanks to many draw.io drafts and a kind ear from my friends in this cohort that I was able to establish these relationships: 
+Developing the associations to develop the features desired was the first challenge. Thanks to many draw.io drafts and my friends in the Flatiron cohort,  I decided on 5 models with belongs_to, has_many, has_many: :through, and many to many relationships to establish these desired functions.
 
-![image](https://imgur.com/5enANuI)
+<a href="https://imgur.com/5enANuI"><img src="https://i.imgur.com/5enANuI.png" title="source: imgur.com" /></a>
 
+The struggle included figuring out how to make my model associations work based on my set user attributes. 
+The User model has a contractor attribute with a boolean datatype that default to false, providing the user the option to sign up as contractor. 
 
-I had initially struggled to figure out how to make my model associations work based on how I had set my user attributes. The User model has a contractor attribute with a boolean datatype, providing the user the option to sign up as a musician looking for gigs or as contractor with the provided extra feature of posting gigs.) The end result was allowing the User to **belong_to :gig** and **has_many :gigs, through: :requests**
+In order to allow different functions for the type of user, I set my associations so that a  User could **belong_to :gig** and **has_many :gigs, through: :requests**
 
 ```
+
 class Gig < ApplicationRecord
     
     belongs_to :user
@@ -30,9 +33,7 @@ class Gig < ApplicationRecord
     
 end
 ```
-		
-		AND
-		
+
 ```
 class User < ApplicationRecord
    
@@ -44,36 +45,57 @@ class User < ApplicationRecord
 end
 ```
 
+I had issues when calling **has_many :gigs, through: :requests** because it conflicted with my **has_many: gigs** association. It made sense because there was no way for Rails to know which association I was referring to when querying the database. With **source:**, I was able to distinguish these associations by renaming to **:posted_gigs** and provide the source, **:gigs** the distinguish the associations on the User model. 
 
-I was having issues when calling **has_many :gigs, though: :requests** because it was conflicting with my 
-		**has_many: gigs **. There was no way for Rails to know which association I was referring and needed to find an alternate solution to query the models.  With **:source**, I was able to ask Rails to look for an association **:posted_gigs** through its root source, **:gigs** on the User model. Renaming and sourcing the model helped distinguish the queries.
-		
-The process of having functioning nested forms was a bit pesky. The Form Builder **fields_for** allows you to create a scope around another object outside of its class.  This allowed me to create an object associated to the scoped model. Sounds pretty straight forward, right? WELL now in your controllers, you need ensure that in the new action, you are initiating that object. Did I also want to associate this form and nested form to a user? YUP! So I needed to make that **IF** the nested user was in fact the current user that I wanted to build a gig on, then I could instatiate that object and then also instantiate the object to build an instruments on the gig form.
+Developing functioning nested forms was a bit pesky. The Form Builder,  **fields_for** creates a scope around another object outside of its class that it is associated with. So in reference to my models, a gig is associated to instruments by **has_many :instruments**. With **fields_for** , we can nest a form inside the Gig form and scope in on the instrument class and its attributes to create instruments with a gig object. That’s it, right? WELL now in your controllers, you need ensure that you have instantiated this newly associated object in the new action in the Gigs Controller.
 
+What if we want to make sure that this new instrument form that is nested inside the gig form is associated to a user? No problem! In the controllers, we can query IF the nested user is in fact the current user that I would like to create this new gig object on. Then we can instantiate that object and the object to build an instrument on the gig form.
 
-	```   
-	def new
-        if params[:user_id] && @user = User.find_by_id(params[:user_id])
-            @gig = @user.gigs.build
-          else
-            @gig = Gig.new
-        end
-        @gig.instruments.build
+```   
+def new
+    if params[:user_id] && @user = User.find_by_id(params[:user_id])
+        @gig = @user.gigs.build
+      else
+        @gig = Gig.new
     end
-		```
-		
+    @gig.instruments.build
+end
+	```
 	
+	```
+	<%= form_for @gig do |f| %>
 
+    <p><%= f.label :title %>
+    <%= f.text_field :title %></p>
 
-Building this project challenged me to follow my breadcrumb of errors to understand the MVC seperation of concerns and associations of this application. I was happy to build an application of my own construction and design to further build my knowledge. Looking forward to ringing into the new year to Javascript!
+    <p><%= f.label :datetime %>
+    <%= f.datetime_local_field :datetime %></p>
+
+    <p><%= f.label :description %>
+    <%= f.text_area :description %></p>
+
+    <p><%= f.label :payment %>
+    $<%= f.text_field :payment %></p>
+
+    <p>Instruments required: </p>
+    <p><%= f.label "Select Existing Instrument"%>
+      
+    <%= f.collection_check_boxes :instrument_ids, Instrument.all, :id, :name %><br>
 		
+		  <p> Or create new Instrument: </p>
+  <div>
+    <%=f.fields_for :instruments, @gig.instruments.build do |i| %>
+      <p><%= i.label :name %>
+      <%= i.text_field :name %>
+    <% end %>
+    <%=f.fields_for :instruments, @gig.instruments.build do |i| %>
+      <p><%= i.label :name %>
+      <%= i.text_field :name %>
+    <% end %>
 
-	
-	
-	
-		
-		
+    <p><%= f.submit %>
 
+<% end %>
+```
 
-
-
+Building this project helped me explore expand my knowledge on Rails. I had a lot of fun exploring different avenues to make my ideas possible while following convention.  I look forward to ringing into the new year with Javascript!
