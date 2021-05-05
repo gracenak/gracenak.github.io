@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Understanding Redux and Thunk"
-date:       2021-05-05 09:32:27 +0000
+date:       2021-05-05 05:32:28 -0400
 permalink:  understanding_redux_and_thunk
 ---
 
@@ -45,7 +45,9 @@ render() {
 .
 .
 export default connect(null, { addReview })(ReviewInput)```
+
 connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
+
 ```export const addReview = (review) => {
      return (dispatch) => {                   
 		 fetch(`http://localhost:3000/api/v1/recipes/${review.recipe_id}/reviews`, {
@@ -65,7 +67,9 @@ connect will return dispatch as a prop to (ReviewInput). It’s a way of connect
     })
   }
 }```
+
 We hit the action creator, invoking the fetch function. The fetch request returns a promise that we are waiting to be resolved. When the promise resolves, it returns a response converting to json and then dispatching another action with the payload of the fetched data that gets sent to the reducer.
+
 ```export default function manageRecipe(state = {recipes: []}, action) {
    switch(action.type) {
       case "ADD_RECIPE":
@@ -76,5 +80,6 @@ We hit the action creator, invoking the fetch function. The fetch request return
        return state
      }
 }```
+
 The reducer uses that action to make changes to the state so that the components can re-render with new data.
 Thunk works in conjunction with Redux, handling asynchronous calls, incorporating async code in the Redux action creator. It allows us to return a function inside of our action creator. That function takes in the store’s dispatch function as an argument, allowing dispatch of multiple actions inside the returned function. Because it handles async calls, it allows us to take the time to call the dispatch action creator, allowing the response request to finish before anything is dispatched to the reducer, unlike connect.
