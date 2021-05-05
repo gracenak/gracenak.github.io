@@ -18,33 +18,56 @@ Lets take a look at an example:
 This class component is connected to the store . Whatever is currently stored in the state will be sent off to the reducer through the dispatched action
 
 ```class ReviewInput extends Component {
-     state = {
+
+    state = {
         comment: '',
         rating: '5',
         username: '',
         recipe_id: this.props.recipeId
+    }
+		.
+		.
+		.
+		    handleOnSubmit = (event) => {
+        event.preventDefault()
+        this.props.addReview(this.state, this.props.recipe.id)
+        this.setState({
+            comment: '',
+            rating: '5',
+            username: ''
+        })
+    }
+		
+		render() {
+        return(
+            <div>
+                <form onSubmit={this.handleOnSubmit}>
+                    <Field>
+                        <input type="text" name="comment" placeholder="comment" value={this.state.comment} onChange={this.handleOnChange}/>
+                    </Field>
+                <RatingContainer>
+                    <RatingLabel> Rate This Recipe</RatingLabel>
+                    <Field>
+                    <select name="rating" value={this.state.rating} onChange={this.handleOnChange}>
+                        <option>5</option>
+                        <option>4</option>
+                        <option>3</option>
+                        <option>2</option>
+                        <option>1</option>
+                    </select>
+                    </Field>
+                </RatingContainer>
+                    <Field>
+                        <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.handleOnChange}/>
+                    </Field>
+                    <SubmitBtn type="submit">Create A Review</SubmitBtn>
+                </form>
+            </div>
+        )
+    }
 }
-.
-.
-.
-handleOnSubmit = (event) => {
-  event.preventDefault()
-  this.props.addReview(this.state, this.props.recipe.id)
-  this.setState({
-     comment: '',
-     rating: '5',
-     username: ''
-    })
-}
-render() {
-  return(
-     <div>
-       <form onSubmit={this.handleOnSubmit}>
-.
-.
-.
-.
-export default connect(null, { addReview })(ReviewInput)```
+
+export default connect(null, { addReview })(ReviewInput) ```
 
 connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
 
