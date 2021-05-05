@@ -77,6 +77,7 @@ export default connect(null, { addReview })(ReviewInput)
 connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
 
 ```
+
 export const addReview = (review) => {
      return (dispatch) => {                   
 		 fetch(`http://localhost:3000/api/v1/recipes/${review.recipe_id}/reviews`, {
@@ -96,11 +97,13 @@ export const addReview = (review) => {
     })
   }
 }
+
 ```
 
 We hit the action creator, invoking the fetch function. The fetch request returns a promise that we are waiting to be resolved. When the promise resolves, it returns a response converting to json and then dispatching another action with the payload of the fetched data that gets sent to the reducer.
 
 ```
+
 export default function manageRecipe(state = {recipes: []}, action) {
    switch(action.type) {
       case "ADD_RECIPE":
@@ -111,6 +114,7 @@ export default function manageRecipe(state = {recipes: []}, action) {
        return state
      }
 }
+
 ```
 
 The reducer uses that action to make changes to the state so that the components can re-render with new data.
