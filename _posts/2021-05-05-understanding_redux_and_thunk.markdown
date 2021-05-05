@@ -17,7 +17,8 @@ To configure store, we pass our reducer(a function that defines action types) in
 Lets take a look at an example:
 This class component is connected to the store . Whatever is currently stored in the state will be sent off to the reducer through the dispatched action
 
-```class ReviewInput extends Component {
+```
+class ReviewInput extends Component {
 
     state = {
         comment: '',
@@ -67,11 +68,16 @@ This class component is connected to the store . Whatever is currently stored in
     }
 }
 
-export default connect(null, { addReview })(ReviewInput) ```
+export default connect(null, { addReview })(ReviewInput)
+
+```
+
+ 
 
 connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
 
-```export const addReview = (review) => {
+```
+export const addReview = (review) => {
      return (dispatch) => {                   
 		 fetch(`http://localhost:3000/api/v1/recipes/${review.recipe_id}/reviews`, {
       method: 'POST',
@@ -89,11 +95,13 @@ connect will return dispatch as a prop to (ReviewInput). It’s a way of connect
       }
     })
   }
-}```
+}
+```
 
 We hit the action creator, invoking the fetch function. The fetch request returns a promise that we are waiting to be resolved. When the promise resolves, it returns a response converting to json and then dispatching another action with the payload of the fetched data that gets sent to the reducer.
 
-```export default function manageRecipe(state = {recipes: []}, action) {
+```
+export default function manageRecipe(state = {recipes: []}, action) {
    switch(action.type) {
       case "ADD_RECIPE":
          return {
@@ -102,7 +110,8 @@ We hit the action creator, invoking the fetch function. The fetch request return
      default:
        return state
      }
-}```
+}
+```
 
 The reducer uses that action to make changes to the state so that the components can re-render with new data.
 Thunk works in conjunction with Redux, handling asynchronous calls, incorporating async code in the Redux action creator. It allows us to return a function inside of our action creator. That function takes in the store’s dispatch function as an argument, allowing dispatch of multiple actions inside the returned function. Because it handles async calls, it allows us to take the time to call the dispatch action creator, allowing the response request to finish before anything is dispatched to the reducer, unlike connect.
