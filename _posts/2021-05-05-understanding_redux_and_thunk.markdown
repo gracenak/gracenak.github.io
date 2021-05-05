@@ -6,8 +6,9 @@ permalink:  understanding_redux_and_thunk
 ---
 
 
-I am at the end of my Flatiron School journey, concluding with the React module. The two middleware agendas that are pertinent to understanding the wonders of React is Redux and thunk .
+I am at the end of my Flatiron School journey, concluding with the React module. The two middleware that are pertinent to understanding the wonders of React is Redux and thunk .
 Redux is a predictable state container that helps manage state changes in a single store so that it exhibits consistent behavior. To change state, we:
+
 1. Update the state in Redux by creating an action with a type key.
 2. Pass that action as an argument when we call the reduce
 3. The reducer produces a new state object. (Note: It does not update the previous state)
@@ -77,45 +78,50 @@ export default connect(null, { addReview })(ReviewInput)
 connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
 
 ```
-
 export const addReview = (review) => {
-     return (dispatch) => {                   
-		 fetch(`http://localhost:3000/api/v1/recipes/${review.recipe_id}/reviews`, {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json'
-       },
-      body: JSON.stringify(review)
-    })
-      .then(response => response.json())
-      .then(recipe => {
-      if (recipe.error) {
-         alert(recipe.error)
-      } else {
-         dispatch({type: 'ADD_REVIEW', payload: recipe}
-      }
-    })
-  }
+
+    return (dispatch) => {
+        fetch(`http://localhost:3000/api/v1/recipes/${review.recipe_id}/reviews`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(review)
+            })
+            .then(response => response.json())
+            .then(recipe => {
+                if (recipe.error) {
+                    alert(recipe.error)
+                } else {
+                dispatch({type: 'ADD_REVIEW', payload: recipe})
+            }
+        })
+    
+    }
 }
 
 ```
+
 
 We hit the action creator, invoking the fetch function. The fetch request returns a promise that we are waiting to be resolved. When the promise resolves, it returns a response converting to json and then dispatching another action with the payload of the fetched data that gets sent to the reducer.
 
 ```
-
 export default function manageRecipe(state = {recipes: []}, action) {
-   switch(action.type) {
-      case "ADD_RECIPE":
-         return {
-            ...state, recipes: [...state.recipes, action.payload]
-     }
-     default:
-       return state
-     }
+    switch(action.type) {
+        case 'ADD_REVIEW':
+            let recipes = state.recipes.map(recipe => {
+                if (recipe.id === action.payload.id) {
+                    return action.payload
+                } else {
+                    return recipe
+                }
+            })
+            return {...state, recipes: recipes}
+						        default:
+            return state
+    }
 }
-
 ```
-
 The reducer uses that action to make changes to the state so that the components can re-render with new data.
+
 Thunk works in conjunction with Redux, handling asynchronous calls, incorporating async code in the Redux action creator. It allows us to return a function inside of our action creator. That function takes in the store’s dispatch function as an argument, allowing dispatch of multiple actions inside the returned function. Because it handles async calls, it allows us to take the time to call the dispatch action creator, allowing the response request to finish before anything is dispatched to the reducer, unlike connect.
