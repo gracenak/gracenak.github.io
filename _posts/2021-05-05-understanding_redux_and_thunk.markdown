@@ -14,6 +14,7 @@ Redux is a predictable state container that helps manage state changes in a sing
 3. The reducer produces a new state object. (Note: It does not update the previous state)
 
 When Redux interacts with React, it virtually re-renders the DOM, then updates the DOM with minimal amount of changes required to ensure the performance of the app.
+
 To configure store, we pass our reducer(a function that defines action types) in the createStore method which returns a store object. We pass this store object into the Provider component which is the provided generic component through react-redux, rendered at the top level so that it can pass store to other components.
 Lets take a look at an example:
 This class component is connected to the store . Whatever is currently stored in the state will be sent off to the reducer through the dispatched action
