@@ -7,27 +7,16 @@ permalink:  understanding_redux_and_thunk
 
 
 I am at the end of my Flatiron School journey, concluding with the React module. The two middleware that are pertinent to understanding the wonders of React is Redux and thunk .
-Redux is a predictable state container that helps manage state changes in a single store so that it exhibits consistent behavior. To change state, we:
-
-1. Update the state in Redux by creating an action with a type key.
-2. Pass that action as an argument when we call the reduce
-3. The reducer produces a new state object. (Note: It does not update the previous state)
-
+Redux is a predictable state container that helps manage state changes in a single store to exhibit consistent behavior on the client side. Redux allows us to avoid prop drilling by providing the ability to connect to store from the component.
+To change state, we connect our store to the component, using the connect function to dispatch action creators. As soon as our action creator hits, dispatch gets called allowing us to return a function that calls dispatch and pass that action object straight to the reducer. The reducer is a function that updates the state in the store by matching the action type. It returns the updated state. The components connected to the store use mapStateToProps to access the current state from Redux as props. The parent containers then pass those props to the children containers, reflecting the updates on the DOM.
 When Redux interacts with React, it virtually re-renders the DOM, then updates the DOM with minimal amount of changes required to ensure the performance of the app.
-
-To configure store, we pass our reducer(a function that defines action types) in the createStore method which returns a store object. We pass this store object into the Provider component which is the provided generic component through react-redux, rendered at the top level so that it can pass store to other components.
+To configure store, we pass our reducer(a function that defines action types) in the createStore method which returns a store object. We pass this store object into the Provider component, the provided generic component through react-redux, rendered at the top level so that it can pass store to other components.
 Lets take a look at an example:
-This class component is connected to the store . Whatever is currently stored in the state will be sent off to the reducer through the dispatched action
+This class component is connected to the store . We don’t need to access state from the store so we set the first argument to null. It takes in a second argument of dispatch to an action creator so that we can dispatch the action creator when the action creator function is invoked upon submission.
 
 ```
 class ReviewInput extends Component {
 
-    state = {
-        comment: '',
-        rating: '5',
-        username: '',
-        recipe_id: this.props.recipeId
-    }
 		.
 		.
 		.
@@ -76,7 +65,8 @@ export default connect(null, { addReview })(ReviewInput)
 
  
 
-connect will return dispatch as a prop to (ReviewInput). It’s a way of connecting that redux store to the component.
+connect will return dispatch as a prop to (ReviewInput), connecting the Redux store to the component.
+We hit the action creator, returning a function to call dispatch and invoking the fetch function to fetch data from the backend asynchronously. The fetch request returns a promise that we are waiting to be resolved. When the promise resolves, it returns a response converting to json and then allows us to call dispatch which takes in those action objects to be sent to the reducer.
 
 ```
 export const addReview = (review) => {
@@ -125,4 +115,4 @@ export default function manageRecipe(state = {recipes: []}, action) {
 ```
 The reducer uses that action to make changes to the state so that the components can re-render with new data.
 
-Thunk works in conjunction with Redux, handling asynchronous calls, incorporating async code in the Redux action creator. It allows us to return a function inside of our action creator. That function takes in the store’s dispatch function as an argument, allowing dispatch of multiple actions inside the returned function. Because it handles async calls, it allows us to take the time to call the dispatch action creator, allowing the response request to finish before anything is dispatched to the reducer, unlike connect.
+Thunk works in conjunction with Redux, handling asynchronous calls, incorporating async code in the Redux action creator. It allows us to return a function inside of our action creator. That function takes in the store’s dispatch function as an argument, allowing dispatch of multiple actions inside the returned function. Because it handles async calls, it allows us to take the time to call the dispatch, allowing the response request to finish before anything is dispatched to the reducer, unlike connect.
